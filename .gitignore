@@ -1,4 +1,7 @@
 .env
+# if anyone who use this code, he need to create a .env file on their computer and past API key for execution 
+# of this code. you can also use free as well paid api to run the code. For free you can use a Groq api key
+# which is totally free.
 __pycache__
 .vscode
 chroma
