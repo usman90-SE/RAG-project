@@ -10,7 +10,7 @@ import os
 
 client_db=chromadb.PersistentClient(path=("./chroma"))
 collection= client_db.get_or_create_collection("knowledge")
-
+load_dotenv()
 app=FastAPI()
 
 @app.post("/ingest")
@@ -35,7 +35,7 @@ def pdf_reader(file:UploadFile= File(...)):
 
     return{"message":f"{len(chunks)}chunks ingested form{file.filename}"}
 
-load_dotenv()
+
 client_grog= Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 
@@ -93,7 +93,7 @@ def search_database(query:Query):
     result= collection.query(
         query_texts=[query.question],
         n_results=2,
-        include=["documents", "distance"]
+        include=["document", "distance"]
     )
 
     return{
