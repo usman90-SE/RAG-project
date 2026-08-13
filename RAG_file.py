@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import chromadb
 import io
 from pypdf import PdfReader
@@ -12,6 +14,14 @@ client_db=chromadb.PersistentClient(path=("./chroma"))
 collection= client_db.get_or_create_collection("knowledge")
 
 app=FastAPI()
+
+# This mounts the static folder so FastAPI can access your index.html
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# This tells FastAPI to serve your frontend UI when you visit the main URL
+@app.get("/")
+def serve_frontend():
+    return FileResponse("static/index.html")
 
 @app.post("/ingest")
 def pdf_reader(file:UploadFile= File(...)):
